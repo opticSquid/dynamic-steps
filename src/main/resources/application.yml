@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: dynamic-steps
+  datasource:
+    na-db:
+      url: jdbc:postgresql://localhost:5432/na
+      username: postgres
+      password: PkNLm@#2357
+    esis-db:
+      url: jdbc:postgresql://localhost:5432/esis
+      username: postgres
+      password: PkNLm@#2357
+    local-db:
+      url: jdbc:postgresql://localhost:5432/local
+      username: postgres
+      password: PkNLm@#2357
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
+
+logging:
+  level:
+    experimental:
+      dynamic_steps: TRACE

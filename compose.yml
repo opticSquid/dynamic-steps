@@ -1,0 +1,12 @@
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=PkNLm@#2357
+    volumes:
+      - dynamicSteps:/var/lib/postgresql/data
+volumes:
+  dynamicSteps:
+    driver: local
