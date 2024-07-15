@@ -23,4 +23,4 @@ spring:
 logging:
   level:
     experimental:
-      dynamic_steps: TRACE
+      "[dynamic_steps]": TRACE

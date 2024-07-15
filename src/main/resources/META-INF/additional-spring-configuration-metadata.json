@@ -1,0 +1,19 @@
+{
+  "properties": [
+    {
+      "name": "spring.datasource.na-db",
+      "type": "java.util.Map",
+      "description": "Connection parameters for db in NA region"
+    },
+    {
+      "name": "spring.datasource.esis-db",
+      "type": "java.util.Map",
+      "description": "Connection parameters for db in ESIS region"
+    },
+    {
+      "name": "spring.datasource.local-db",
+      "type": "java.util.Map",
+      "description": "Connection parameters for db in your local system"
+    }
+  ]
+}
