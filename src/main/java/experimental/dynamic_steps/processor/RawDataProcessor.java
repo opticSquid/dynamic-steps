@@ -20,7 +20,7 @@ public class RawDataProcessor implements ItemProcessor<SourceSystemCSV, List<Com
     // this would always be the local db's jdbcTemplate
     // as it was marked primary in configuration
     private JdbcTemplate localDBJdbcTemplate;
-    private static final String FIND_START_TIME = "SELECT NEXT_RUN_START_TIME from time_keeper where SOURCE_SYSTEM = ?";
+    private static final String FIND_START_TIME = "SELECT DATE_RECEIVED from RAW_DATA where SOURCE_SYSTEM = ? ORDER BY DATE_RECEIVED DESC LIMIT 1";
 
     public RawDataProcessor(Map<String, JdbcTemplate> jdbcTemplates, JdbcTemplate localDBJdbcTemplate) {
         this.jdbcTemplates = jdbcTemplates;
@@ -39,7 +39,9 @@ public class RawDataProcessor implements ItemProcessor<SourceSystemCSV, List<Com
         // do not use queryForList() other wise you will not be able to map
         if (item.name().equalsIgnoreCase("ESIS Claims") || item.name().equalsIgnoreCase("Claim Connect")) {
             return targetDBJdbcTemplate.query(item.query(),
-                    (rs, rowNum) -> new CommonRawDataFormat(rs.getInt("BATCH_ID"),
+                    (rs, rowNum) -> new CommonRawDataFormat(
+                            rs.getInt("BATCH_ID"),
+                            item.name(),
                             rs.getTimestamp("RECEIVED_DATE").toLocalDateTime(),
                             rs.getInt("BATCH_STATUS"),
                             rs.getInt("RECORD_COUNT"),
@@ -52,6 +54,7 @@ public class RawDataProcessor implements ItemProcessor<SourceSystemCSV, List<Com
             return targetDBJdbcTemplate.query(item.query(),
                     (rs, rowNum) -> new CommonRawDataFormat(
                             rs.getInt("POLICY_ID"),
+                            item.name(),
                             rs.getTimestamp("DATE_ADDED").toLocalDateTime(),
                             rs.getString("APPDB_STATUS_CODE"),
                             rs.getString("FN_STATUS_CODE"),

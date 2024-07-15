@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class CommonRawDataFormat {
     private Integer id;
+    private String sourceSystem;
     private LocalDateTime dateReceived;
     private String appdbStatusCode;
     private String filenetStatusCode;
@@ -19,9 +20,11 @@ public class CommonRawDataFormat {
     public CommonRawDataFormat() {
     }
 
-    public CommonRawDataFormat(Integer id, LocalDateTime dateReceived, String appdbStatusCode, String filenetStatusCode,
+    public CommonRawDataFormat(Integer id, String sourceSystem, LocalDateTime dateReceived, String appdbStatusCode,
+            String filenetStatusCode,
             Integer appdbRetryCount, Integer filenetRetryCount) {
         this.id = id;
+        this.sourceSystem = sourceSystem;
         this.dateReceived = dateReceived;
         this.appdbStatusCode = appdbStatusCode;
         this.filenetStatusCode = filenetStatusCode;
@@ -29,9 +32,11 @@ public class CommonRawDataFormat {
         this.filenetRetryCount = filenetRetryCount;
     }
 
-    public CommonRawDataFormat(Integer id, LocalDateTime dateReceived, Integer batchStatus, Integer recordCount,
+    public CommonRawDataFormat(Integer id, String sourceSystem, LocalDateTime dateReceived, Integer batchStatus,
+            Integer recordCount,
             Integer successCount, Integer failureCount, Integer duplicateCount, String filenetGuid) {
         this.id = id;
+        this.sourceSystem = sourceSystem;
         this.dateReceived = dateReceived;
         this.batchStatus = batchStatus;
         this.recordCount = recordCount;
