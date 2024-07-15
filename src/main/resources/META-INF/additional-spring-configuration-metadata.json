@@ -14,6 +14,11 @@
       "name": "spring.datasource.local-db",
       "type": "java.util.Map",
       "description": "Connection parameters for db in your local system"
+    },
+    {
+      "name": "dynamic_steps.input-file",
+      "type": "java.lang.String",
+      "description": "CSV file which lists all vendors and related details"
     }
   ]
 }

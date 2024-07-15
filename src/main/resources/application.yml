@@ -24,3 +24,6 @@ logging:
   level:
     experimental:
       "[dynamic_steps]": TRACE
+
+dynamic_steps:
+  input-file: source-systems.csv

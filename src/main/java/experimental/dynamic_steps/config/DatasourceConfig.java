@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -16,73 +15,73 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Configuration
 public class DatasourceConfig {
     // Datasource properties
-    @Bean
     @ConfigurationProperties("spring.datasource.na-db")
-    DataSourceProperties naDbProperties(){
+    DataSourceProperties naDbProperties() {
         return new DataSourceProperties();
     }
-    @Bean
+
     @ConfigurationProperties("spring.datasource.esis-db")
-    DataSourceProperties esisDbProperties(){
+    DataSourceProperties esisDbProperties() {
         return new DataSourceProperties();
     }
-    @Bean
+
     @ConfigurationProperties("spring.datasource.local-db")
-    DataSourceProperties localDbProperties(){
+    DataSourceProperties localDbProperties() {
         return new DataSourceProperties();
     }
 
     // Datasources
     // use this data source if region == 'NA'
-    @Bean
     @ConfigurationProperties("spring.datasource.na-db.hikari")
-    DataSource naDataSource(){
+    DataSource naDataSource() {
         return naDbProperties()
-        .initializeDataSourceBuilder()
-        .build();
+                .initializeDataSourceBuilder()
+                .build();
     }
 
     // use this data source if region == 'ESIS'
-    @Bean
     @ConfigurationProperties("spring.datasource.esis-db.hikari")
-    DataSource esisDataSource(){
+    DataSource esisDataSource() {
         return esisDbProperties()
-        .initializeDataSourceBuilder()
-        .build();
-    }
-
-    // this gives the functionality to choose the datasource on the fly
-    @Bean
-    public Map<String, DataSource> dataSources() {
-        Map<String, DataSource> dataSourceMap = new HashMap<>();
-        dataSourceMap.put("NA", naDataSource()); // Key based on your region identifier
-        dataSourceMap.put("ESIS", esisDataSource()); // Key based on your region identifier
-        // Add other entries for additional regions if needed
-        return dataSourceMap;
+                .initializeDataSourceBuilder()
+                .build();
     }
 
     // this is the local data source where you will write the data
     @Bean
     @Primary
     @ConfigurationProperties("spring.datasource.local-db.hikari")
-    DataSource localDataSource(){
+    DataSource localDataSource() {
         return localDbProperties()
-        .initializeDataSourceBuilder()
-        .build();
+                .initializeDataSourceBuilder()
+                .build();
     }
-    
+
     // jdbc templates
-    @Bean
-    JdbcTemplate nadbJdbcTemplate(@Qualifier("naDataSource") DataSource datasource){
-        return new JdbcTemplate(datasource);
+    JdbcTemplate nadbJdbcTemplate() {
+        return new JdbcTemplate(naDataSource());
     }
-    @Bean
-    JdbcTemplate esisdbJdbcTemplate(@Qualifier("esisDataSource") DataSource datasource){
-        return new JdbcTemplate(datasource);
+
+    JdbcTemplate esisdbJdbcTemplate() {
+        return new JdbcTemplate(esisDataSource());
     }
+
     @Bean
     @Primary
-    JdbcTemplate localdbJdbcTemplate(@Qualifier("localDataSource") DataSource datasource){
-        return new JdbcTemplate(datasource);
+    JdbcTemplate localdbJdbcTemplate() {
+        return new JdbcTemplate(localDataSource());
+    }
+
+    /**
+     * @return returnns the jdbc template instance depending on the region
+     *         This gives the functionality to choose the jdbcTemplate on the fly
+     */
+    @Bean
+    Map<String, JdbcTemplate> jdbcTemplates() {
+        Map<String, JdbcTemplate> jdbcTemplateMap = new HashMap<>();
+        jdbcTemplateMap.put("NA", nadbJdbcTemplate());
+        jdbcTemplateMap.put("ESIS", esisdbJdbcTemplate());
+        // Add other entries for additional regions if needed
+        return jdbcTemplateMap;
     }
 }
