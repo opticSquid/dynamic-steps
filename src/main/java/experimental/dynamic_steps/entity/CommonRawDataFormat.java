@@ -50,6 +50,10 @@ public class CommonRawDataFormat {
         return id;
     }
 
+    public String getSourceSystem() {
+        return sourceSystem;
+    }
+
     public LocalDateTime getDateReceived() {
         return dateReceived;
     }
