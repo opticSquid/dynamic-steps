@@ -3,7 +3,7 @@ package experimental.dynamic_steps.entity;
 import java.time.LocalDateTime;
 
 public class CommonRawDataFormat {
-    private Integer id;
+    private Integer recordId;
     private String sourceSystem;
     private LocalDateTime dateReceived;
     private String appdbStatusCode;
@@ -20,10 +20,11 @@ public class CommonRawDataFormat {
     public CommonRawDataFormat() {
     }
 
-    public CommonRawDataFormat(Integer id, String sourceSystem, LocalDateTime dateReceived, String appdbStatusCode,
+    public CommonRawDataFormat(Integer recordId, String sourceSystem, LocalDateTime dateReceived,
+            String appdbStatusCode,
             String filenetStatusCode,
             Integer appdbRetryCount, Integer filenetRetryCount) {
-        this.id = id;
+        this.recordId = recordId;
         this.sourceSystem = sourceSystem;
         this.dateReceived = dateReceived;
         this.appdbStatusCode = appdbStatusCode;
@@ -32,10 +33,10 @@ public class CommonRawDataFormat {
         this.filenetRetryCount = filenetRetryCount;
     }
 
-    public CommonRawDataFormat(Integer id, String sourceSystem, LocalDateTime dateReceived, Integer batchStatus,
+    public CommonRawDataFormat(Integer recordId, String sourceSystem, LocalDateTime dateReceived, Integer batchStatus,
             Integer recordCount,
             Integer successCount, Integer failureCount, Integer duplicateCount, String filenetGuid) {
-        this.id = id;
+        this.recordId = recordId;
         this.sourceSystem = sourceSystem;
         this.dateReceived = dateReceived;
         this.batchStatus = batchStatus;
@@ -46,8 +47,8 @@ public class CommonRawDataFormat {
         this.filenetGuid = filenetGuid;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getRecordId() {
+        return recordId;
     }
 
     public String getSourceSystem() {

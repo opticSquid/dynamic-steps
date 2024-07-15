@@ -77,6 +77,7 @@ public class DatasourceConfig {
      *         This gives the functionality to choose the jdbcTemplate on the fly
      */
     @Bean
+    @Primary
     Map<String, JdbcTemplate> jdbcTemplates() {
         Map<String, JdbcTemplate> jdbcTemplateMap = new HashMap<>();
         jdbcTemplateMap.put("NA", nadbJdbcTemplate());
