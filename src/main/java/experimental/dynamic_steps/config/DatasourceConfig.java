@@ -1,5 +1,8 @@
 package experimental.dynamic_steps.config;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,6 +33,7 @@ public class DatasourceConfig {
     }
 
     // Datasources
+    // use this data source if region == 'NA'
     @Bean
     @ConfigurationProperties("spring.datasource.na-db.hikari")
     DataSource naDataSource(){
@@ -38,6 +42,7 @@ public class DatasourceConfig {
         .build();
     }
 
+    // use this data source if region == 'ESIS'
     @Bean
     @ConfigurationProperties("spring.datasource.esis-db.hikari")
     DataSource esisDataSource(){
@@ -45,6 +50,18 @@ public class DatasourceConfig {
         .initializeDataSourceBuilder()
         .build();
     }
+
+    // this gives the functionality to choose the datasource on the fly
+    @Bean
+    public Map<String, DataSource> dataSources() {
+        Map<String, DataSource> dataSourceMap = new HashMap<>();
+        dataSourceMap.put("NA", naDataSource()); // Key based on your region identifier
+        dataSourceMap.put("ESIS", esisDataSource()); // Key based on your region identifier
+        // Add other entries for additional regions if needed
+        return dataSourceMap;
+    }
+
+    // this is the local data source where you will write the data
     @Bean
     @Primary
     @ConfigurationProperties("spring.datasource.local-db.hikari")
